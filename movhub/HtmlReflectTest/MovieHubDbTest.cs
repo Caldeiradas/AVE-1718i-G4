@@ -12,10 +12,9 @@ namespace HtmlReflectTest
         [TestMethod]
         public void SearchTest()
         {
-            
+
             MovieSearchItem[] movieSearch = movieDb.Search("war games", 1);
             Assert.AreEqual(movieSearch.Length, 6);
-
         }
     }
 }
