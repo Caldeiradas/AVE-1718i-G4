@@ -39,7 +39,12 @@ namespace MovHubDb
         /// e.g.: https://api.themoviedb.org/3/movie/860/credits?api_key=8d3a500e709b7e1ff4c80b09bda127c4
         /// </summary>  
         public CreditsItem[] MovieCredits(int id) {
-            return new CreditsItem[0];
+            string uri = uriprefix + "movie/" + id + "/credits" + key;
+            string body = client.DownloadString(uri);
+            Credits creditsQuery = (Credits)JsonConvert.DeserializeObject(body, typeof(Credits));
+            CreditsItem[] credits = creditsQuery.cast;
+            //return new CreditsItem[0];
+            return credits; 
         }
 
         /// <summary>
