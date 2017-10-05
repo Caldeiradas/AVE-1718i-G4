@@ -16,5 +16,13 @@ namespace HtmlReflectTest
             Assert.AreEqual(movieSearch.Length, 6);
             Assert.AreEqual(movieSearch[0].Id, 14154);
         }
+
+        [TestMethod]
+        public void MovieDetailsTest()
+        {
+            Movie movie = movieDb.MovieDetails(860);
+            Assert.AreEqual(movie.OriginalTitle, "WarGames");
+        }
+
     }
 }
