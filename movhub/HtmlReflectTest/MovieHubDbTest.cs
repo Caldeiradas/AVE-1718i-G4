@@ -21,7 +21,7 @@ namespace HtmlReflectTest
         public void MovieDetailsTest()
         {
             Movie movie = movieDb.MovieDetails(860);
-            Assert.AreEqual(movie.OriginalTitle, "WarGames");
+            Assert.AreEqual(movie.original_title, "WarGames");
         }
 
     }

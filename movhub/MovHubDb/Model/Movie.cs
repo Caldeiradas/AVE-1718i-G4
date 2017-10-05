@@ -7,24 +7,22 @@ namespace MovHubDb.Model
     public class Movie
     {
         [HtmlIgnore]
-        public int Id { get; set; }
+        public int id { get; set; }
 
-        public string OriginalTitle { get; set; }
+        public string original_title { get; set; }
 
         [HtmlAs("<li class='list-group-item'><a href='/movies/{value}/credits'>cast and crew </a></li>")]
-        public string Credits {
-            get { return Id.ToString(); }
-        }
+        public string credits { get { return id.ToString(); } }
 
         [HtmlIgnore]
-        public long Budget { get; set; }
-        public double Popularity { get; set; }
+        public long budget { get; set; }
+        public double popularity { get; set; }
 
-        public double Voteaverage { get; set; }
+        public double vote_average { get; set; }
 
-        public string Releasedate { get; set; }
+        public string release_date { get; set; }
 
         [HtmlAs("<div class='card-body bg-light'><div><strong>{name}</strong>:</div>{value}</div>")]
-        public string Overview { get; set; }
+        public string overview { get; set; }
     }
 }
