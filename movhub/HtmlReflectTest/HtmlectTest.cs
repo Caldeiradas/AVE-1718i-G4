@@ -9,9 +9,26 @@ namespace HtmlReflectTest
     [TestClass]
     public class HtmlectTest
     {
+
+
+        [TestMethod]
+        public void ToHtmlTest()
+        {
+
+            TheMovieDbClient movieDb = new TheMovieDbClient();
+            Htmlect html = new Htmlect();
+            Movie movie = movieDb.MovieDetails(860);
+            html.ToHtml(movie);
+
+
+
+        }
+
+
         [TestMethod]
         public void ToHtmlArrayTest()
         {
+
             
         }
 

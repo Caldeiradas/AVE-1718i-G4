@@ -32,14 +32,7 @@ namespace HtmlReflectTest
             Assert.AreEqual(credits[0].name, "Matthew Broderick");
         }
 
-
-        [TestMethod]
-        public void MovieCredits()
-        {
-            CreditsItem[] credits = movieDb.MovieCredits(860);
-            Assert.AreEqual(credits[0].id, 4756);
-            Assert.AreEqual(credits[0].name, "Matthew Broderick");
-        }
+        
 
     }
 }

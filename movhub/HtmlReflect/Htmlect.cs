@@ -1,8 +1,64 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 
 namespace HtmlReflect
 {
+
+
+    public class Htmlect
+    {
+        public string ToHtml(object obj)
+        {
+            List<PropertyInfo> res;
+            String str = "";
+            PropertyInfo[] fs = obj.GetType().GetProperties();
+            res = new List<PropertyInfo>();
+            str = HtmlBuild(fs,obj);
+            //foreach (PropertyInfo p in fs)
+            //{
+
+            //    object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
+            //    if (attrs.Length != 0) continue;
+
+            //    Console.WriteLine("Property Name= {0}, Value = {1}" , p.Name , p.GetValue(obj) );
+            //    res.Add(p);
+
+            //    //object[] attrs = p.GetCustomAttributes(typeof(LoggableAttribute), true);
+            //    //if (attrs.Length == 0) continue;
+            //    //res.Add(p);
+            //}
+            return str;
+        }
+
+        public string ToHtml(object[] arr)
+        {
+            return "";
+        }
+
+
+        private string HtmlBuild(PropertyInfo[] fs, object obj)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<ul class='list-group'>");
+            foreach (PropertyInfo p in fs)
+            {
+                object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
+                if (attrs.Length != 0) continue;
+                Console.WriteLine("Property Name= {0}, Value = {1}", p.Name, p.GetValue(obj));
+                sb.Append("<li class='list-group-item'><strong>");
+                sb.Append(p.Name);
+                sb.Append("</strong>:");
+                sb.Append(p.GetValue(obj));
+                sb.Append("</li>");
+            }
+            sb.Append("</ul>");
+            return sb.ToString();
+        }
+
+    }
+
 
     public class HtmlIgnoreAttribute : Attribute
     {
@@ -11,21 +67,9 @@ namespace HtmlReflect
     public class HtmlAsAttribute : Attribute
     {
         string Url;
-        public HtmlAsAttribute(string Url) {
+        public HtmlAsAttribute(string Url)
+        {
             Url = this.Url;
-        }
-    }
-
-    public class Htmlect
-    {
-        public string ToHtml(object obj)
-        {
-            return "";
-        }
-
-        public string ToHtml(object[] arr)
-        {
-            return "";
         }
     }
 }

@@ -24,5 +24,18 @@ namespace MovHubDb.Model
 
         [HtmlAs("<div class='card-body bg-light'><div><strong>{name}</strong>:</div>{value}</div>")]
         public string overview { get; set; }
+
+      
+        public override string ToString() {
+            return "id=" + id + "\n" +
+                    "original_title=" + original_title + "\n" +
+                    "credits=" + credits + "\n" +
+                    "budget=" + budget + "\n" +
+                    "popularity=" + popularity + "\n" +
+                    "vote_average=" + vote_average + "\n" +
+                    "release_date=" + release_date + "\n" +
+                    "overview=" + overview + "\n";
+
+        }
     }
 }
