@@ -43,8 +43,9 @@ namespace HtmlReflect
             foreach (PropertyInfo currProperty in allProperties)
             {
                 object[] attrs = currProperty.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
-                notIgnoredProperties.AddLast(currProperty);
+          
                 if (attrs.Length != 0) continue;
+                notIgnoredProperties.AddLast(currProperty);
                 if (tableHeader.Length == 0)
                     tableHeader.Append("<table class ='table table-hover'> <thread> <tr><th>" + currProperty.Name);
                 else
