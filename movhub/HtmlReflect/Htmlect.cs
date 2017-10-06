@@ -33,16 +33,19 @@ namespace HtmlReflect
 
         public string ToHtml(object[] arr)
         {
+
+            if (arr.Length == 0) return null;
+
             StringBuilder tableHeader = new StringBuilder();
             StringBuilder tableContent = new StringBuilder();
 
-            PropertyInfo[] allProperties = arr[0].GetType().GetProperties();
+            
             LinkedList<PropertyInfo> notIgnoredProperties = new LinkedList<PropertyInfo>();
 
 
             //table header 
             tableHeader.Append("<table class ='table table-hover'> <thread> <tr>");
-            foreach (PropertyInfo currProperty in allProperties)
+            foreach (PropertyInfo currProperty in arr[0].GetType().GetProperties())
             {
                 object[] attrs = currProperty.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
                 
@@ -62,16 +65,23 @@ namespace HtmlReflect
 
 
             //table content
-
             tableContent.Append("<tbody>");
+            //each object is a table row starts at <tr> ends in </tr>
             foreach (object currObject in arr)
             {
 
                 tableContent.Append("<tr>");
 
+                //each property is table data in the current row starts at <td> ends in </td>
                 foreach (PropertyInfo currObjectProperty in notIgnoredProperties)
                 {
-                   
+                    HtmlAsAttribute attribute = (HtmlAsAttribute)currObjectProperty.GetCustomAttribute(typeof(HtmlAsAttribute));
+                    if(attribute != null)
+                    {
+                        tableContent.Append(attribute.htmlRef.Replace("{name}", currObjectProperty.Name).Replace("{value}", currObjectProperty.GetValue(currObject).ToString()));
+                        continue;
+                    }
+                     
                         tableContent.Append("<td>" + currObjectProperty.GetValue(currObject) + "</td>");
                 }
 
@@ -83,16 +93,17 @@ namespace HtmlReflect
 
     }
 
+
     public class HtmlIgnoreAttribute : Attribute
     {
     }
 
     public class HtmlAsAttribute : Attribute
     {
-        string htmlRef {get; set;}
+        public string htmlRef {get; set;}
         public HtmlAsAttribute(string htmlRef)
         {
-            htmlRef = this.htmlRef;
+            this.htmlRef= htmlRef;
         }
 
     }

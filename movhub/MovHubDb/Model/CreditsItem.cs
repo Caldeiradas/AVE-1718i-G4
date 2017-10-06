@@ -15,6 +15,5 @@ namespace MovHubDb.Model
 
         public string department { get; set; }
 
-
     }
 }

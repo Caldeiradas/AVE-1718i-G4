@@ -12,11 +12,5 @@
         private int Year;
         private int Month;
         private int Day;
-
-        /*
-        public Data (string val){
-            Year = int.Parse(val.Substring(0).EndsWith("-"))
-        }
-        */
     }
 }

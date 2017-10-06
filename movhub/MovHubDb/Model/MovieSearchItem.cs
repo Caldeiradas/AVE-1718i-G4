@@ -5,7 +5,7 @@ namespace MovHubDb.Model
     public class MovieSearchItem
     {
 
-        [HtmlIgnore]
+        [HtmlAs("<td><a href='/movies/{value}'> {value} </a></td>")]
         public int Id { get; set; }
 
         public string Title { get; set; }
@@ -20,8 +20,6 @@ namespace MovHubDb.Model
                     "Title=" + Title + "\n" +
                     "vote_average=" + vote_average + "\n" +
                     "release_date=" + release_date + "\n";
-                    
-
         }
 
     }
