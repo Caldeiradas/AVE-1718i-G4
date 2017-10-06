@@ -40,7 +40,7 @@ namespace HtmlReflect
         public string ToHtml(object[] arr)
         {
 
-            if (arr.Length == 0) return null;
+            if (arr==null || arr.Length == 0) return null;
 
             StringBuilder tableHeader = new StringBuilder();
             StringBuilder tableContent = new StringBuilder();

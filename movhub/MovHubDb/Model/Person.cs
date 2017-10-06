@@ -1,10 +1,11 @@
-﻿namespace MovHubDb.Model
+﻿using HtmlReflect;
+namespace MovHubDb.Model
 {
     public class Person
     {
         public string birthday { get; set; }
         public string name { get; set; }
-        public int imdb_id { get; set; }
+        public string imdb_id { get; set; }
     }
 
     public class Date

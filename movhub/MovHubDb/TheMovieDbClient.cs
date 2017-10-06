@@ -52,14 +52,21 @@ namespace MovHubDb
         /// </summary>
         public Person PersonDetais(int actorId)
         {
-            return new Person();
+            string uri = uriprefix + "person/" + actorId + key;
+            string body = client.DownloadString(uri);
+            Person person = (Person)JsonConvert.DeserializeObject(body, typeof(Person));
+            return person;
         }
 
         /// <summary>
         /// e.g.: https://api.themoviedb.org/3/person/3489/movie_credits?api_key=*****
         /// </summary>
         public MovieSearchItem[] PersonMovies(int actorId) {
-            return new MovieSearchItem[0];
+            string uri = uriprefix + "person/" + actorId + "/movie_credits"+key;
+            string body = client.DownloadString(uri);
+            MovieSearch movielist = (MovieSearch)JsonConvert.DeserializeObject(body, typeof(MovieSearch));
+            MovieSearchItem[] movieSearch = movielist.results;
+            return movieSearch;
         }
     }
 }
