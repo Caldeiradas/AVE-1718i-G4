@@ -39,38 +39,43 @@ namespace HtmlReflect
             PropertyInfo[] allProperties = arr[0].GetType().GetProperties();
             LinkedList<PropertyInfo> notIgnoredProperties = new LinkedList<PropertyInfo>();
 
-            //table header row
+
+            //table header 
+            tableHeader.Append("<table class ='table table-hover'> <thread> <tr>");
             foreach (PropertyInfo currProperty in allProperties)
             {
                 object[] attrs = currProperty.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
-          
-                if (attrs.Length != 0) continue;
-                notIgnoredProperties.AddLast(currProperty);
-                if (tableHeader.Length == 0)
-                    tableHeader.Append("<table class ='table table-hover'> <thread> <tr><th>" + currProperty.Name);
-                else
-                    tableHeader.Append("</th><th>" + currProperty.Name);
-            }
-            tableHeader.Append("</th></tr> </thread>");
+                
 
-            int propertyCount = notIgnoredProperties.Count;
+                if (attrs.Length != 0)
+                {
+                    
+                    Console.WriteLine(attrs[0].ToString());
+                    continue;
+                }
+                notIgnoredProperties.AddLast(currProperty);
+                
+                    tableHeader.Append("<th>" + currProperty.Name+"</th>");
+                
+            }
+            tableHeader.Append("</tr> </thread>");
+
+
             //table content
 
             tableContent.Append("<tbody>");
             foreach (object currObject in arr)
             {
 
-                int i = propertyCount;
-
-                tableContent.Append("<tr><td>");
+                tableContent.Append("<tr>");
 
                 foreach (PropertyInfo currObjectProperty in notIgnoredProperties)
                 {
-                    if (i > 1)
-                        tableContent.Append(currObjectProperty.GetValue(currObject) + "</td><td>");
-                    else
-                        tableContent.Append(currObjectProperty.GetValue(currObject) + "</td><tr>");
+                   
+                        tableContent.Append("<td>" + currObjectProperty.GetValue(currObject) + "</td>");
                 }
+
+                tableContent.Append("</tr>");
             }
             tableContent.Append("</tbody> </table>");
             return tableHeader.ToString()+tableContent.ToString();
@@ -84,10 +89,11 @@ namespace HtmlReflect
 
     public class HtmlAsAttribute : Attribute
     {
-        string Url;
-        public HtmlAsAttribute(string Url)
+        string htmlRef {get; set;}
+        public HtmlAsAttribute(string htmlRef)
         {
-            Url = this.Url;
+            htmlRef = this.htmlRef;
         }
+
     }
 }
