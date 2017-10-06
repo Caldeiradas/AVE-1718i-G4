@@ -22,7 +22,6 @@ namespace MovHubDb.Model
 
         public string release_date { get; set; }
 
-        [HtmlAs("<div class='card-body bg-light'><div><strong>{name}</strong>:</div>{value}</div>")]
         public string overview { get; set; }
 
       

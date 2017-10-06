@@ -20,8 +20,6 @@ namespace HtmlReflectTest
             Movie movie = movieDb.MovieDetails(860);
             html.ToHtml(movie);
 
-
-
         }
 
 
@@ -31,8 +29,6 @@ namespace HtmlReflectTest
 
             
         }
-
-
 
     }
 }

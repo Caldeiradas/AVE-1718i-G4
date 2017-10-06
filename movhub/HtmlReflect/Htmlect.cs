@@ -20,6 +20,12 @@ namespace HtmlReflect
             {
                 object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
                 if (attrs.Length != 0) continue;
+                HtmlAsAttribute attribute = (HtmlAsAttribute)p.GetCustomAttribute(typeof(HtmlAsAttribute));
+                if(attribute != null)
+                {
+                    sb.Append(attribute.htmlRef.Replace("{name}", p.Name).Replace("{value}", p.GetValue(obj).ToString()));
+                    continue;
+                }
                 Console.WriteLine("Property Name= {0}, Value = {1}", p.Name, p.GetValue(obj));
                 sb.Append("<li class='list-group-item'><strong>");
                 sb.Append(p.Name);
