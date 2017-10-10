@@ -40,9 +40,9 @@ namespace MovHubDb.Model
                     "credits=" + credits + "\n" +
                     "Budget=" + Budget + "\n" +
                     "popularity=" + popularity + "\n" +
-                    "vote_average=" + vote_average + "\n" +
-                    "release_date=" + release_date + "\n" +
-                    "overview=" + overview + "\n";
+                    "vote_average=" + VoteAverage + "\n" +
+                    "release_date=" + ReleaseDate + "\n" +
+                    "overview=" + Overview + "\n";
 
         }
     }

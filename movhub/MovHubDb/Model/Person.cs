@@ -1,17 +1,35 @@
 ﻿using HtmlReflect;
+using Newtonsoft.Json;
+
 namespace MovHubDb.Model
 {
     public class Person
     {
-        public string birthday { get; set; }
-        public string name { get; set; }
-        public string imdb_id { get; set; }
-    }
+        [HtmlIgnore]
+        public int id { get; set; }
 
-    public class Date
-    {
-        private int Year;
-        private int Month;
-        private int Day;
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("birthday")]
+        public string Birthday { get; set; }
+
+        [JsonProperty("deathday")]
+        public string deathday { get; set; }
+
+        [JsonProperty("biography")]
+        public string Biography { get; set; }
+
+        [JsonProperty("popularity")]
+        public double Popularity { get; set; }
+
+        [JsonProperty("place_of_birth")]
+        public string PlaceOfBirth { get; set; }
+
+        public string profile_path { get; set; }
+
+        public string imdb_id { get; set; }
+
+
     }
 }
