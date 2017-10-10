@@ -30,7 +30,12 @@ namespace MovHubDb.Model
 
         public string Overview { get; set; }
 
-      
+        [HtmlAs("<div style=\"position: absolute; top: 0; right: 0;\">" +
+            "<img src=\"http://image.tmdb.org/t/p/w185/{value}\" width=\"50%\"></div>")]
+        public string poster_path { get; set; }
+
+
+
         public override string ToString() {
             return "id=" + Id + "\n" +
                     "OriginalTitle=" + OriginalTitle + "\n" +
