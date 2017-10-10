@@ -9,13 +9,13 @@ namespace HtmlReflectTest
     [TestClass]
     public class HtmlectTest
     {
+        private TheMovieDbClient movieDb = new TheMovieDbClient();
+        private Htmlect html = new Htmlect();
+
         [TestMethod]
         public void ToHtmlTest()
         {
-
-            TheMovieDbClient movieDb = new TheMovieDbClient();
             Movie movie = movieDb.MovieDetails(860);
-            Htmlect html = new Htmlect();
             String thisHtml = html.ToHtml(movie);
             Assert.IsTrue(
                 thisHtml.Contains("<ul class='list-group'><li class='list-group-item'>" +
@@ -23,15 +23,14 @@ namespace HtmlReflectTest
 
         }
 
+        // Utilizou-se para este teste o id 15008 pois pertence a um actriz ja falecido
+        // assim sendo o dados de teste são imutaveis
         [TestMethod]
         public void ToHtmlArrayTest()
         {
-            TheMovieDbClient movieDb = new TheMovieDbClient();
-            CreditsItem[] credits = movieDb.MovieCredits(860);
-            Htmlect html = new Htmlect();
-            String thisHtml = html.ToHtml(credits);
-            Assert.IsTrue(thisHtml.Contains("<tbody><tr><td><a href='/person/4756/movies'> 4756 </a>" +
-                                            "</td><td>David Lightman</td><td>Matthew Broderick</td></tr><tr><td>"));
+            MovieSearchItem[] personCredits = movieDb.PersonMovies(15008);
+            String thisHtml = html.ToHtml(personCredits);
+            Assert.IsTrue(thisHtml.Contains("<tr><td><a href='/person/1018/movies'> 1018 </a></td><td>Mulholland Drive</td>"));
 
         }
 

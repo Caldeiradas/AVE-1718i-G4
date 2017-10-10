@@ -8,7 +8,8 @@ namespace HtmlReflectTest
     [TestClass]
     public class MovieHubDbTest
     {
-        TheMovieDbClient movieDb = new TheMovieDbClient();
+        private TheMovieDbClient movieDb = new TheMovieDbClient();
+
         [TestMethod]
         public void MovieSearchTest()
         {

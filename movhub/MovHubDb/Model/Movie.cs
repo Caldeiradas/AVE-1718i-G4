@@ -7,18 +7,16 @@ namespace MovHubDb.Model
     public class Movie
     {
         [HtmlIgnore]
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("original_title")]
         public string OriginalTitle { get; set; }
 
-        [JsonProperty("tagline")]
         public string Tagline {get; set;}
 
         [HtmlAs("<li class='list-group-item'><a href='/movies/{value}/credits'>cast and crew </a></li>")]
-        public string credits { get { return id.ToString(); } }
+        public string credits { get { return Id.ToString(); } }
     
-        [JsonProperty("budget")]
         public long Budget { get; set; }
 
         [HtmlIgnore]
@@ -30,12 +28,11 @@ namespace MovHubDb.Model
         [JsonProperty("release_date")]
         public string ReleaseDate { get; set; }
 
-        [JsonProperty("overview")]
         public string Overview { get; set; }
 
       
         public override string ToString() {
-            return "id=" + id + "\n" +
+            return "id=" + Id + "\n" +
                     "OriginalTitle=" + OriginalTitle + "\n" +
                     "credits=" + credits + "\n" +
                     "Budget=" + Budget + "\n" +

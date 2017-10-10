@@ -4,9 +4,7 @@ using System.Reflection;
 using System.Text;
 
 namespace HtmlReflect
-{
-
-
+{ 
     public class Htmlect
     {
         public string ToHtml(object obj)
@@ -18,13 +16,12 @@ namespace HtmlReflect
             {
                 object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
                 if (attrs.Length != 0) continue;
-                HtmlAsAttribute attribute = (HtmlAsAttribute)p.GetCustomAttribute(typeof(HtmlAsAttribute));
+                HtmlAsAttribute attribute = (HtmlAsAttribute)p.GetCustomAttribute(typeof(HtmlAsAttribute)); // extrair para variável local
                 if(attribute != null)
                 {
                     sb.Append(attribute.htmlRef.Replace("{name}", p.Name).Replace("{value}", p.GetValue(obj).ToString()));
                     continue;
                 }
-                Console.WriteLine("Property Name= {0}, Value = {1}", p.Name, p.GetValue(obj));
                 sb.Append(
                     String.Format("<li class='list-group-item'><strong>{0}</strong>:{1}</li>", p.Name, p.GetValue(obj)));
             }
@@ -46,15 +43,9 @@ namespace HtmlReflect
             foreach (PropertyInfo currProperty in arr[0].GetType().GetProperties())
             {
                 object[] attrs = currProperty.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
-                if (attrs.Length != 0)
-                {
-                    Console.WriteLine(attrs[0].ToString());
-                    Console.WriteLine(currProperty.Name);
-                    continue;
-                }
+                if (attrs.Length != 0)continue;
                 notIgnoredProperties.AddLast(currProperty);
-                tableHeader.Append("<th>" + currProperty.Name+"</th>");
-                
+                tableHeader.Append("<th>" + currProperty.Name+"</th>");  
             }
             tableHeader.Append("</tr> </thead>");
 
