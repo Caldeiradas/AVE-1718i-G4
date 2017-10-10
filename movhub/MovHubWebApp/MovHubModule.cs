@@ -42,7 +42,7 @@ namespace MovHubWebApp
 
             Get["/person/{actorId}/movies"] = args =>
             {
-                Person actor = movieDb.PersonDetais(args.actorId);
+                Person actor = movieDb.PersonDetails(args.actorId);
                 MovieSearchItem[] credits = movieDb.PersonMovies(args.actorId);
                 MovHubViewModel moviesList = new MovHubViewModel(
                     html.ToHtml(actor),

@@ -10,11 +10,11 @@ namespace HtmlReflectTest
     {
         TheMovieDbClient movieDb = new TheMovieDbClient();
         [TestMethod]
-        public void SearchTest()
+        public void MovieSearchTest()
         {
             MovieSearchItem[] movieSearch = movieDb.Search("war games", 1);
             Assert.AreEqual(movieSearch.Length, 6);
-            Assert.AreEqual(movieSearch[0].Id, 14154);
+            Assert.AreEqual(movieSearch[0].Id, 14154);  
         }
 
         [TestMethod]
@@ -32,7 +32,14 @@ namespace HtmlReflectTest
             Assert.AreEqual(credits[0].name, "Matthew Broderick");
         }
 
-        
+        [TestMethod]
+        public void PersonDetailsTest()
+        {
+            CreditsItem[] credits = movieDb.MovieCredits(860);
+            Assert.AreEqual(credits[0].id, 4756);
+            Assert.AreEqual(credits[0].name, "Matthew Broderick");
+        }
+
 
     }
 }
