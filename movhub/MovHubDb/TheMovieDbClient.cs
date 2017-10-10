@@ -9,7 +9,6 @@ namespace MovHubDb
     {
 
         private WebClient client = new WebClient();
-        private const string uriprefix = "https://api.themoviedb.org/3/";
         private const string key = "8d3a500e709b7e1ff4c80b09bda127c4";
 
         /// <summary>
@@ -50,23 +49,23 @@ namespace MovHubDb
         /// e.g.: https://api.themoviedb.org/3/person/3489?api_key=8d3a500e709b7e1ff4c80b09bda127c4
         /// </summary>
         public Person PersonDetails(int actorId)
-        {
-            // string uri = uriprefix + "person/" + actorId + key;
-            string uri = String.Format("https://api.themoviedb.org/3/person/{o}?api_key={1}", actorId, key);
+        { 
+            string uri = String.Format("https://api.themoviedb.org/3/person/{0}?api_key={1}", actorId, key);
             string body = client.DownloadString(uri);
             Person person = (Person)JsonConvert.DeserializeObject(body, typeof(Person));
             return person;
         }
 
         /// <summary>
-        /// e.g.: https://api.themoviedb.org/3/person/3489/movie_credits?api_key=*****
+        /// e.g.: https://api.themoviedb.org/3/person/3489/movie_credits?api_key=8d3a500e709b7e1ff4c80b09bda127c4
         /// </summary>
         public MovieSearchItem[] PersonMovies(int actorId) {
-            string uri = String.Format("https://api.themoviedb.org/3/person/{0}/movie_credits?api_key={1}]", actorId, key);
+            string uri = String.Format("https://api.themoviedb.org/3/person/{0}/movie_credits?api_key={1}", actorId, key);
             string body = client.DownloadString(uri);
-            MovieSearch movielist = (MovieSearch)JsonConvert.DeserializeObject(body, typeof(MovieSearch));
-            MovieSearchItem[] movieSearch = movielist.results;
-            return movieSearch;
+            PersonCredits personMoviesList = (PersonCredits)JsonConvert.DeserializeObject(body, typeof(PersonCredits));
+            MovieSearchItem[] personMovies = personMoviesList.cast;
+        
+            return personMovies;
         }
     }
 }

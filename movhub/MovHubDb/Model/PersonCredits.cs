@@ -1,7 +1,10 @@
+using HtmlReflect;
+using Newtonsoft.Json;
+
 namespace MovHubDb.Model
 {
     public class PersonCredits
     {
-        //TODO
+        public MovieSearchItem[] cast;
     }
 }

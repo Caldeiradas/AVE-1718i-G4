@@ -1,17 +1,22 @@
 using HtmlReflect;
+using Newtonsoft.Json;
 
 namespace MovHubDb.Model
 {
     public class MovieSearchItem
     {
 
-        [HtmlAs("<td><a href='/movies/{value}'> {value} </a></td>")]
+        [JsonProperty("id")]
+        [HtmlAs("<td><a href='/person/{value}/movies'> {value} </a></td>")]
         public int Id { get; set; }
 
+        [JsonProperty("title")]
         public string Title { get; set; }
 
+        [JsonProperty("release_date")]
         public string release_date { get; set; }
 
+        [JsonProperty("vote_average")]
         public double vote_average { get; set; }
 
         public override string ToString()

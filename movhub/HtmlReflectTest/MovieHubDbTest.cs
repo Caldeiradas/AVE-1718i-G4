@@ -35,9 +35,17 @@ namespace HtmlReflectTest
         [TestMethod]
         public void PersonDetailsTest()
         {
-            CreditsItem[] credits = movieDb.MovieCredits(860);
-            Assert.AreEqual(credits[0].Id, 4756);
-            Assert.AreEqual(credits[0].Name, "Matthew Broderick");
+            Person p = movieDb.PersonDetails(15008);
+            Assert.AreEqual(p.Name, "Ann Miller");
+            
+        }
+
+        [TestMethod]
+        public void PersonMoviesTest()
+        {
+            MovieSearchItem[] personMovies = movieDb.PersonMovies(15008);
+            Assert.AreEqual(personMovies[0].Title, "Mulholland Drive");
+
         }
 
 
