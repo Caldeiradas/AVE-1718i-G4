@@ -1,6 +1,6 @@
 using System;
 using HtmlReflect;
-
+using Newtonsoft.Json;
 
 namespace MovHubDb.Model
 {
@@ -9,27 +9,36 @@ namespace MovHubDb.Model
         [HtmlIgnore]
         public int id { get; set; }
 
-        public string original_title { get; set; }
+        [JsonProperty("original_title")]
+        public string OriginalTitle { get; set; }
+
+        [JsonProperty("tagline")]
+        public string Tagline {get; set;}
 
         [HtmlAs("<li class='list-group-item'><a href='/movies/{value}/credits'>cast and crew </a></li>")]
         public string credits { get { return id.ToString(); } }
+    
+        [JsonProperty("budget")]
+        public long Budget { get; set; }
 
         [HtmlIgnore]
-        public long budget { get; set; }
         public double popularity { get; set; }
 
-        public double vote_average { get; set; }
+        [JsonProperty("vote_average")]
+        public double VoteAverage { get; set; }
 
-        public string release_date { get; set; }
+        [JsonProperty("release_date")]
+        public string ReleaseDate { get; set; }
 
-        public string overview { get; set; }
+        [JsonProperty("overview")]
+        public string Overview { get; set; }
 
       
         public override string ToString() {
             return "id=" + id + "\n" +
-                    "original_title=" + original_title + "\n" +
+                    "OriginalTitle=" + OriginalTitle + "\n" +
                     "credits=" + credits + "\n" +
-                    "budget=" + budget + "\n" +
+                    "Budget=" + Budget + "\n" +
                     "popularity=" + popularity + "\n" +
                     "vote_average=" + vote_average + "\n" +
                     "release_date=" + release_date + "\n" +

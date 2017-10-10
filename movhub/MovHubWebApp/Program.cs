@@ -28,8 +28,8 @@ namespace MovHubWebApp
         {
             TheMovieDbClient db = new TheMovieDbClient();
             MovieSearchItem[] res = db.Search("war games", 1);
-            Console.WriteLine(res[0]);
-            Console.WriteLine(db.MovieDetails(860));
+            //Console.WriteLine(res[0]);
+            //Console.WriteLine(db.MovieDetails(860));
         }
 
         static void Main(string[] args)
