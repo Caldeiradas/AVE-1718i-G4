@@ -34,7 +34,7 @@ namespace MovHubWebApp
 
         static void Main(string[] args)
         {
-            TestMovieDbWebApi();
+          //  TestMovieDbWebApi();
             StartWebApp();
         }
     }

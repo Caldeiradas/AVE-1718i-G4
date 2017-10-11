@@ -64,7 +64,6 @@ namespace MovHubDb
             string body = client.DownloadString(uri);
             PersonCredits personMoviesList = (PersonCredits)JsonConvert.DeserializeObject(body, typeof(PersonCredits));
             MovieSearchItem[] personMovies = personMoviesList.cast;
-        
             return personMovies;
         }
     }
