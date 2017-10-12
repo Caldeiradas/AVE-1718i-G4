@@ -45,7 +45,7 @@ namespace HtmlReflectTest
         public void PersonMoviesTest()
         {
             MovieSearchItem[] personMovies = movieDb.PersonMovies(15008);
-            Assert.AreEqual(personMovies[0].Title, "Mulholland Drive");
+            Assert.AreEqual(personMovies[0].Title, "Reveille with Beverly");
 
         }
 
