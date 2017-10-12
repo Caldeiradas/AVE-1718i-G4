@@ -4,13 +4,14 @@ using MovHubDb.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HtmlReflectTest
 {
     [TestClass]
-    class AttributesTest
+    public class AttributesTest
     {
         private TheMovieDbClient movieDb = new TheMovieDbClient();
 
@@ -23,6 +24,23 @@ namespace HtmlReflectTest
         {
             Movie movie = movieDb.MovieDetails(1018);
             Assert.IsNotNull(movie.VoteAverage); // origainalmente é Vote_Average em Json
+        }
+
+        [TestMethod]
+        public void IgnoreAttributeTest()
+        {
+            Movie movie = movieDb.MovieDetails(860);
+            PropertyInfo idInfo = movie.GetType().GetProperty("Id");
+            Assert.IsNotNull(idInfo.GetCustomAttribute(typeof(HtmlReflect.HtmlIgnoreAttribute)));
+        }
+
+        [TestMethod]
+        public void HtmlAsAttributeTest()
+        {
+            Movie movie = movieDb.MovieDetails(860);
+            HtmlReflect.HtmlAsAttribute attribute = (HtmlReflect.HtmlAsAttribute)movie.GetType().GetProperty("credits").GetCustomAttribute(typeof(HtmlReflect.HtmlAsAttribute));
+            Assert.IsNotNull(attribute);
+            Assert.IsTrue(attribute.htmlRef.Contains("<li class='list-group-item'><a href='/movies/{value}/credits'>cast and crew </a></li>"));
         }
     }
 }
