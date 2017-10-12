@@ -7,9 +7,9 @@ namespace HtmlReflect
 {
     public class Htmlect
     {
-        // maps between a Type and its Properties that aren't marked with the custom attribute HtmlIgnore
+        /// maps between a Type and its Properties that aren't marked with the custom attribute HtmlIgnore
         static Dictionary<Type, List<PropertyInfo>> notIgnoredProperties = new Dictionary<Type, List<PropertyInfo>>();
-        // maps between a Type and its Properties that are marked with the custom attribute HtmlAs
+        /// maps between a Type and its Properties that are marked with the custom attribute HtmlAs
         static Dictionary<PropertyInfo, string> htmlAsProperties = new Dictionary<PropertyInfo, string>();
 
         public string ToHtml(object obj)
@@ -22,7 +22,6 @@ namespace HtmlReflect
 
             foreach (PropertyInfo p in props)
             {
-                //if (HtmlAsAttributeExists(obj, p, sb)) continue;
                 string htmlRef = GetHtmlAsAttribStringRef(p);
                 if (htmlRef != null)
                 {
@@ -79,17 +78,18 @@ namespace HtmlReflect
         }
 
         /// <summary>
-        ///  Receives a type and checks if it exist in cache(dictionary notIgnoredProperties) 
-        ///  if its exists returns the value stored for that property. 
-        ///  If it doesn't exist checks each property for the IgnoreAttribute
-        ///  If the property doesn't have this attribute it's add to cache and the list to return.
-        ///  </summary>
+        ///  Receives a type and checks if it exists in cache(dictionary notIgnoredProperties) 
+        ///  If it exists returns the value stored for that property. 
+        ///  If the type isn't cached it will check each every property of the type for the IgnoreAttribute.
+        ///  If a given property isn't marked with this attribute it is added to cache.
+        ///  It is also added to the list that will be returned.
+        /// </summary>
         /// <param name="klass">
-        /// type in which to check list of properties
+        ///  Type in which to check list of properties.
         /// </param>
         /// <returns>
-        ///  returns a list of properties not marked with HtmlIgnoreAttribute
-        ///  </returns>
+        ///  Returns a list of properties not marked with HtmlIgnoreAttribute.
+        /// </returns>
 
         private List<PropertyInfo> GetPropsWithCustomAttrib(Type klass)
         {
@@ -106,17 +106,18 @@ namespace HtmlReflect
             notIgnoredProperties.Add(klass, res);
             return res;
         }
-        
+
         /// <summary>
-        /// Checks the cache, htmlsAsProperties dictionary, if the given property exists
-        /// If it existe returns the stored value
-        /// If it the property doesn t exist in cache it checks via reflection 
-        /// if the property has the HtmlAsAttribute
+        ///  Checks the cache (htmlsAsProperties dictionary ) if the given property exists.
+        ///  If it exists returns the value stored in cache.
+        ///  If the property doesn't exist in cache it checks via reflection for the  HtmlAsAttribute.
+        ///  If the property is marked with this attribute the string value stored in the htmlRef field
+        ///  of the HtmlAsAttribute is stored in cache, and is returned.
         /// </summary>
-        /// <param name="p">the property in which there could be the HtmlAsAttribute</param>
+        /// <param name="p">The property in which there could be the HtmlAsAttribute</param>
         /// <returns>
-        /// string provided by custom attribute HtmlAsAttribute  
-        /// If theres HtmlAsAtttribute in p returns null
+        ///  String provided by custom attribute HtmlAsAttribute  
+        ///  If theres HtmlAsAtttribute in p returns null.
         /// </returns>
 
         private string GetHtmlAsAttribStringRef(PropertyInfo p)
@@ -125,8 +126,7 @@ namespace HtmlReflect
             if (htmlAsProperties.TryGetValue(p, out htmlRef)) return htmlRef;
 
             HtmlAsAttribute attribute = (HtmlAsAttribute)p.GetCustomAttribute(typeof(HtmlAsAttribute));
-            if (attribute != null)
-            {
+            if (attribute != null) {
                 htmlAsProperties.Add(p, attribute.htmlRef);
                 return attribute.htmlRef;
             }
