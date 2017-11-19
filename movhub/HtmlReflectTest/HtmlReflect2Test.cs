@@ -21,6 +21,15 @@ namespace HtmlReflectTest
             Assert.IsTrue(
                 thisHtml.Contains("<ul class='list-group'><li class='list-group-item'>" +
                                   "<strong>OriginalTitle</strong>:WarGames</li>"));
+        }
+
+        [TestMethod]
+        public void ToHtmlArrayTest()
+        {
+            MovieSearchItem[] personCredits = movieDb.PersonMovies(15008);
+            String thisHtml = html.ToHtml(personCredits);
+            Assert.IsTrue(thisHtml.Contains("<td>Mulholland Drive</td><td>2001-05-16</td><td>7,7</td>"));
+            //Assert.IsTrue(thisHtml.Contains("<td>Mulholland Drive</td><td>2001-05-16</td><td>7.7</td>"));
 
         }
     }

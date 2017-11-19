@@ -36,38 +36,34 @@ namespace HtmlReflect
         }
     }
 
-    class GetterArray : IGetter
-    {
-        PropertyInfo p;
-        public GetterArray(PropertyInfo p)
-        {
-            this.p = p;
-        }
-        public string GetPropertyName()
-        {
-            return p.Name;
-        }
-        public string GetValueAsString(object target)
-        {
-            object[] arr = (object[])p.GetValue(target);
-            string str = p.Name + ": [";
-            //for (int i = 0; i < arr.Length; i++)
-            //{
-            //    str += Logger.ObjFieldsToString(arr[i]) + ", ";
-            //}
-            //return str + "]";
-            return null;
-        }
+    //class GetterArray : IGetter
+    //{
+    //    PropertyInfo p;
+    //    public GetterArray(PropertyInfo p)
+    //    {
+    //        this.p = p;
+    //    }
+    //    public string GetPropertyName()
+    //    {
+    //        return p.Name;
+    //    }
+    //    public string GetValueAsString(object target)
+    //    {
+    //        object[] arr = (object[])p.GetValue(target);
+    //        string str = p.Name + ": [";
+    //        //for (int i = 0; i < arr.Length; i++)
+    //        //{
+    //        //    str += Logger.ObjFieldsToString(arr[i]) + ", ";
+    //        //}
+    //        //return str + "]";
+    //        return null;
+    //    }
 
-        public string GetHtmlString()
-        {
-            return null;
-        }
-    }
-
-
-
-
+    //    public string GetHtmlString()
+    //    {
+    //        return null;
+    //    }
+    //}
 
     public class HtlmReflect2
     {
@@ -96,65 +92,47 @@ namespace HtmlReflect
             return sb.ToString();
         }
 
-        //public string ToHtml(object[] arr)
-        //{
-        //    if (arr == null || arr.Length == 0) return null;
+        public string ToHtml(object[] arr)
+        {
+            if (arr == null || arr.Length == 0) return null;
 
-        //    StringBuilder tableHeader = new StringBuilder();
-        //    StringBuilder tableContent = new StringBuilder();
+            StringBuilder tableHeader = new StringBuilder();
+            StringBuilder tableContent = new StringBuilder();
 
-        //    //List<PropertyInfo> props = GetFieldsWithCustomAttrib(arr[0].GetType());
-        //    List<PropertyInfo> props = null;
+            List<IGetter> props = GetPropsWithCustomAttrib(arr[0].GetType());
 
-        //    //table header 
-        //    tableHeader.Append("<table class ='table table-hover'> <thead> <tr>");
+            //table header 
+            tableHeader.Append("<table class ='table table-hover'> <thead> <tr>");
 
-        //    foreach (PropertyInfo currProperty in props)
-        //    {
-        //        tableHeader.Append("<th>" + currProperty.Name + "</th>");
-        //    }
-        //    tableHeader.Append("</tr> </thead>");
+            foreach (IGetter getter in props)
+            {
+                tableHeader.Append("<th>" + getter.GetPropertyName() + "</th>");
+            }
+            tableHeader.Append("</tr> </thead>");
 
-        //    //table content
-        //    tableContent.Append("<tbody>");
-        //    //each object is a table row starts at <tr> ends in </tr>
-        //    foreach (object currObject in arr)
-        //    {
-        //        tableContent.Append("<tr>");
+            //table content
+            tableContent.Append("<tbody>");
+            //each object is a table row starts at <tr> ends in </tr>
+            foreach (object currObject in arr)
+            {
+                tableContent.Append("<tr>");
 
-        //        //each property is table data in the current row starts at <td> ends in </td>
-        //        foreach (PropertyInfo currObjectProperty in props)
-        //        {
-        //            string htmlRef = GetHtmlAsAttribStringRef(currObjectProperty);
-        //            if (htmlRef != null)
-        //            {
-        //                tableContent.Append(htmlRef.Replace("{name}", currObjectProperty.Name).Replace("{value}", currObjectProperty.GetValue(currObject).ToString()));
-        //                continue;
-        //            }
-        //            tableContent.Append("<td>" + currObjectProperty.GetValue(currObject) + "</td>");
-        //        }
-        //        tableContent.Append("</tr>");
-        //    }
-        //    tableContent.Append("</tbody> </table>");
-        //    return tableHeader.ToString() + tableContent.ToString();
-        //}
-
-
-
-
-        /// <summary>
-        ///  Receives a type and checks if it exists in cache(dictionary notIgnoredProperties) 
-        ///  If it exists returns the value stored for that property. 
-        ///  If the type isn't cached it will check each every property of the type for the IgnoreAttribute.
-        ///  If a given property isn't marked with this attribute it is added to cache.
-        ///  It is also added to the list that will be returned.
-        /// </summary>
-        /// <param name="klass">
-        ///  Type in which to check list of properties.
-        /// </param>
-        /// <returns>
-        ///  Returns a list of properties not marked with HtmlIgnoreAttribute.
-        /// </returns>
+                //each property is table data in the current row starts at <td> ends in </td>
+                foreach (IGetter getter in props)
+                {
+                    string htmlRef = getter.GetHtmlString();
+                    if (htmlRef != null)
+                    {
+                        tableContent.Append(htmlRef.Replace("{name}", getter.GetPropertyName()).Replace("{value}", getter.GetValueAsString(currObject)));
+                        continue;
+                    }
+                    tableContent.Append("<td>" + getter.GetValueAsString(currObject) + "</td>");
+                }
+                tableContent.Append("</tr>");
+            }
+            tableContent.Append("</tbody> </table>");
+            return tableHeader.ToString() + tableContent.ToString();
+        }
 
         private List<IGetter> GetPropsWithCustomAttrib(Type klass)
         {
@@ -168,10 +146,7 @@ namespace HtmlReflect
             {
                 object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
                 if (attrs.Length != 0) continue;
-                if (p.PropertyType.IsArray)
-                    res.Add(new GetterArray(p));
-                else
-                    res.Add(new GetterObject(p));
+                res.Add(new GetterObject(p));
             }
             markedProps.Add(klass, res);
             return res;
