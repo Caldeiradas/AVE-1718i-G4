@@ -134,17 +134,5 @@ namespace HtmlReflect
         }
     }
 
-    public class HtmlIgnoreAttribute : Attribute
-    {
-    }
-
-    public class HtmlAsAttribute : Attribute
-    {
-        public string htmlRef {get; set;}
-        public HtmlAsAttribute(string htmlRef)
-        {
-            this.htmlRef= htmlRef;
-        }
-
-    }
+  
 }

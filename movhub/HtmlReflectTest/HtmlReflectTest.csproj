@@ -52,6 +52,7 @@
     <Compile Include="HtmlectTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MovieHubDbTest.cs" />
+    <Compile Include="HtmlReflect2Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
