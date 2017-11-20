@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 
-namespace HtmlEmit
+namespace HtmlEmit2
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Reflection.Emit;
-    using System.Runtime.InteropServices;
-    using System.Text;
-
-    namespace HtmlEmit
+    namespace HtmlEmit2
     {
         public abstract class PropertyInfoGetter
         {
             public abstract string[] GetNames();
 
             public abstract object GetValue(string name);
+
+            public abstract PropertyInfo GetPropertyInfo(string name);
 
         }
 
@@ -31,7 +29,7 @@ namespace HtmlEmit
             //maps a type to its emited methods
             static Dictionary<Type, PropertyInfoGetter> getters = new Dictionary<Type, PropertyInfoGetter>();
             /// maps between a Type and its Properties that are marked with the custom attribute HtmlAs
-            static Dictionary<PropertyInfo, string> htmlAsProperties = new Dictionary<PropertyInfo, string>();
+            static Dictionary<string, string> htmlAsProperties = new Dictionary<string, string>();
 
 
             public string ToHtml(object obj)
@@ -46,14 +44,14 @@ namespace HtmlEmit
                     getters.Add(objType, getter);
                 }
 
-                propNames = GetPropNamesWithCustomAttrib(objType,getter);
+                propNames = GetPropNamesWithCustomAttrib(objType, getter);
 
                 StringBuilder sb = new StringBuilder();
                 sb.Append("<ul class='list-group'>");
 
                 foreach (String p in propNames)
                 {
-                    string htmlRef = GetHtmlAsAttribStringRef(p);
+                    string htmlRef = GetHtmlAsAttribStringRef(p, getter);
                     if (htmlRef != null)
                     {
                         sb.Append(htmlRef.Replace("{name}", (string)getter.GetValue(p)).Replace("{value}", (string)getter.GetValue(p)));
@@ -68,28 +66,29 @@ namespace HtmlEmit
 
             public string ToHtml(object[] arr)
             {
-
+                return null;
             }
 
-            private string[] GetPropNamesWithCustomAttrib(Type klass,PropertyInfoGetter getter)
+            private string[] GetPropNamesWithCustomAttrib(Type klass, PropertyInfoGetter getter)
             {
                 string[] res;
                 if (notIgnoredPropertieNames.TryGetValue(klass.GetType(), out res)) return res;
-            
+
                 res = getter.GetNames();
-                
+
                 return res;
             }
 
-            private string GetHtmlAsAttribStringRef(PropertyInfo p)
+            private string GetHtmlAsAttribStringRef(string name, PropertyInfoGetter getter)
             {
                 String htmlRef = "";
-                if (htmlAsProperties.TryGetValue(p, out htmlRef)) return htmlRef;
+                if (htmlAsProperties.TryGetValue(name, out htmlRef)) return htmlRef;
+                PropertyInfo p = getter.GetPropertyInfo(name);
 
                 HtmlAsAttribute attribute = (HtmlAsAttribute)p.GetCustomAttribute(typeof(HtmlAsAttribute));
                 if (attribute != null)
                 {
-                    htmlAsProperties.Add(p, attribute.htmlRef);
+                    htmlAsProperties.Add(name, attribute.htmlRef);
                     return attribute.htmlRef;
                 }
                 return null;
@@ -97,7 +96,7 @@ namespace HtmlEmit
 
             private PropertyInfoGetter CreateGetter(Type objType)
             {
-          
+
                 string name = objType.Name + "PropertyInfoGetter";
                 AssemblyName asmName = new AssemblyName(name);
 
@@ -105,23 +104,23 @@ namespace HtmlEmit
 
                 ModuleBuilder moduleB = asmB.DefineDynamicModule(name, name + ".dll");
 
-                TypeBuilder typeB = moduleB.DefineType(name,TypeAttributes.Public,objType);
+                TypeBuilder typeB = moduleB.DefineType(name, TypeAttributes.Public, objType);
 
-                MethodBuilder methodB = typeB.DefineMethod("GetNames", MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.ReuseSlot,typeof(string[]),Type.EmptyTypes);
+                MethodBuilder methodB = typeB.DefineMethod("GetNames", MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.ReuseSlot, typeof(string[]), Type.EmptyTypes);
 
                 ILGenerator ilG = methodB.GetILGenerator();
 
                 //TODO GetNames
 
-                methodB = typeB.DefineMethod("GetValue", MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.ReuseSlot,typeof(Object),new Type[] {typeof(string)});
+                methodB = typeB.DefineMethod("GetValue", MethodAttributes.Public | MethodAttributes.Virtual | MethodAttributes.ReuseSlot, typeof(Object), new Type[] { typeof(string) });
 
                 //TODO GetValue
 
                 Type getterType = typeB.CreateType();
 
-                asmB.Save(asmName.Name+".dll");
+                asmB.Save(asmName.Name + ".dll");
 
-                return (PropertyInfoGetter) Activator.CreateInstance(getterType);
+                return (PropertyInfoGetter)Activator.CreateInstance(getterType);
             }
 
             public class HtmlIgnoreAttribute : Attribute
