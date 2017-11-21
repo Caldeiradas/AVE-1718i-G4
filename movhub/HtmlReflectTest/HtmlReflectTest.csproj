@@ -50,11 +50,16 @@
   <ItemGroup>
     <Compile Include="AttributesTest.cs" />
     <Compile Include="HtmlectTest.cs" />
+    <Compile Include="MoviePropGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MovieHubDbTest.cs" />
     <Compile Include="HtmlReflect2Test.cs" />
+    <Compile Include="HtmlEmitTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="GenericTest1.GenericTest">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

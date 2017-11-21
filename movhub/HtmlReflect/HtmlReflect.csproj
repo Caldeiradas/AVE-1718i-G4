@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CustomAttributes.cs" />
     <Compile Include="Htmlect.cs" />
+    <Compile Include="HtmlEmit.cs" />
     <Compile Include="HtmlReflect2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

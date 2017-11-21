@@ -7,13 +7,14 @@ using MovHubDb.Model;
 namespace HtmlReflectTest
 {
     [TestClass]
-    public class HtmlReflect2Test
+    public class HtmlEmitTests
     {
+
         private TheMovieDbClient movieDb = new TheMovieDbClient();
-        private HtlmReflect2 html = new HtlmReflect2();
-        
+        private HtmlEmit html = new HtmlEmit();
+
         [TestMethod]
-        public void ToHtml2Test()
+        public void ToHtmlEmitTest()
         {
 
             Movie movie = movieDb.MovieDetails(860);
@@ -23,6 +24,5 @@ namespace HtmlReflectTest
                 thisHtml.Contains("<ul class='list-group'><li class='list-group-item'>" +
                                   "<strong>OriginalTitle</strong>:WarGames</li>"));
         }
-       
     }
 }
