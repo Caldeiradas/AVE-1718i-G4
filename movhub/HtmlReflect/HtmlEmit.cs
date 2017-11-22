@@ -25,7 +25,7 @@ namespace HtmlReflect
             return String.Format("<li class='list-group-item'><strong>{0}</strong>:{1}</li>", name, value);
         }
 
-        public static string FormatHtmlAsToHtml(string htmlRef, string name, object value)
+        public static string FormatHtmlAsToHtml(string name, object value, string htmlRef)
         {
             return htmlRef.Replace("{name}", name.Replace("{value}", value.ToString()));
         }
@@ -34,7 +34,7 @@ namespace HtmlReflect
     public class HtmlEmit
     {
         static readonly MethodInfo FormatNotIgnoreToHtml = typeof(AbstractPropGetter).GetMethod("FormatNotIgnoreToHtml", new Type[] { typeof(String), typeof(object) });
-        static readonly MethodInfo FormatHtmlAsToHtm = typeof(AbstractPropGetter).GetMethod("FormatHtmlAsToHtml", new Type[] { typeof(String), typeof(String), typeof(object) });
+        static readonly MethodInfo FormatHtmlAsToHtml = typeof(AbstractPropGetter).GetMethod("FormatHtmlAsToHtml", new Type[] {  typeof(String), typeof(object), typeof(String) });
         static readonly MethodInfo concat = typeof(String).GetMethod("Concat", new Type[] { typeof(string), typeof(string) });
 
 
@@ -104,28 +104,31 @@ namespace HtmlReflect
                 object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
                 if (attrs.Length != 0) continue;
                 il.Emit(OpCodes.Ldstr, p.Name);    // push on stack the property name
-                                                   //  il.Emit(OpCodes.Ldloc, target);    // ldloc target
 
+                // Get this property get Method
                 MethodInfo pGetMethod = objType.GetProperty(p.Name,
                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
                    ).GetGetMethod(true);
 
-                il.Emit(OpCodes.Ldloc_0);          // push target
-                il.Emit(OpCodes.Callvirt, pGetMethod); // push property value 
+                il.Emit(OpCodes.Ldloc_0);                  // push target
+                // Using this property _GetMethod() gets the property value
+                il.Emit(OpCodes.Callvirt, pGetMethod);     // push property value 
                 if (p.PropertyType.IsValueType)
-                    il.Emit(OpCodes.Box, p.PropertyType); // box
+                    il.Emit(OpCodes.Box, p.PropertyType);  // box
 
-                //TODO CHECK IF VALUE TYPE 
-                il.Emit(OpCodes.Call, FormatNotIgnoreToHtml);
-                //il.Emit(OpCodes.Callvirt, objType.GetMethod(pGetMethod.Name, new Type[] { typeof(object) }));
-                
+                // If this property has HtmlAs custom attribute executes FormatHtmlAsToHtml
+                HtmlAsAttribute[] htmlAsAttrib =(HtmlAsAttribute[])p.GetCustomAttributes(typeof(HtmlAsAttribute), true);
+                if (htmlAsAttrib.Length == 0)
+                    il.Emit(OpCodes.Call, FormatNotIgnoreToHtml);
+                else
+                {
+                    string htmlAs = htmlAsAttrib[0].htmlRef;
+                    il.Emit(OpCodes.Ldstr, htmlAs);
+                    il.Emit(OpCodes.Call, FormatHtmlAsToHtml);
+                }
                 il.Emit(OpCodes.Call, concat);
-
             }
             il.Emit(OpCodes.Ret);              // ret
-
-
-
             Type getterType = typeB.CreateType();
 
             asmB.Save(asmName.Name + ".dll");
