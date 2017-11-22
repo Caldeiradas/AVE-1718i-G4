@@ -24,5 +24,18 @@ namespace HtmlReflectTest
                 thisHtml.Contains("<ul class='list-group'><li class='list-group-item'>" +
                                   "<strong>OriginalTitle</strong>:WarGames</li>"));
         }
+
+
+
+        [TestMethod]
+        public void MoviePropGetterTest()
+        {
+
+            Movie movie = movieDb.MovieDetails(860);
+            MoviePropGetter moviePropGetter = new MoviePropGetter();
+
+            String thisHtml = moviePropGetter.GetHtmlString(movie);
+            
+        }
     }
 }

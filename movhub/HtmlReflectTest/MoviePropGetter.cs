@@ -16,9 +16,15 @@ namespace HtmlReflect
             Movie  m = (Movie)obj;
             string originalTitleValue = m.OriginalTitle;
             res += FormatNotIgnoreToHtml("originalTitle", originalTitleValue);
-            return null;
+            string v = m.Budget.ToString();
+           // string attrValue = "<li class='list-group-item'><a href='/movies/{value}/credits'>cast and crew </a></li>";
+
+            return res;
 
         }
 
     }
+
+
+    
 }

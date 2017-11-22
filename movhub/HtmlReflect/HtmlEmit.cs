@@ -35,7 +35,8 @@ namespace HtmlReflect
     {
         static readonly MethodInfo FormatNotIgnoreToHtml = typeof(AbstractPropGetter).GetMethod("FormatNotIgnoreToHtml", new Type[] { typeof(String), typeof(String) });
         static readonly MethodInfo FormatHtmlAsToHtm = typeof(AbstractPropGetter).GetMethod("FormatHtmlAsToHtml", new Type[] { typeof(String), typeof(String), typeof(object) });
-        
+        static readonly MethodInfo concat = typeof(String).GetMethod("Concat", new Type[] { typeof(string), typeof(string) });
+
 
         //maps a type to its emited methods
         static Dictionary<Type, PropertyInfoGetter> markedProps = new Dictionary<Type, PropertyInfoGetter>();
@@ -97,27 +98,38 @@ namespace HtmlReflect
             il.Emit(OpCodes.Castclass, objType); // castclass
             il.Emit(OpCodes.Stloc, target);    // store on local variable 
 
+            il.Emit(OpCodes.Ldstr, "");
             foreach (PropertyInfo p in props)
             {
                 object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
                 if (attrs.Length != 0) continue;
+
                 il.Emit(OpCodes.Ldstr, p.Name);    // push on stack the property name
                                                    //  il.Emit(OpCodes.Ldloc, target);    // ldloc target
 
-                //MethodInfo pGetMethod = objType.GetProperty(p.Name,
-                //   BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
-                //   ).GetGetMethod(true);
-                il.Emit(OpCodes.Ldloc, target);    // ldloc target
+                MethodInfo pGetMethod = objType.GetProperty(p.Name,
+                   BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+                   ).GetGetMethod(true);
+
+              
+
+                il.Emit(OpCodes.Ldloc_0);          // push target
+                il.Emit(OpCodes.Callvirt, pGetMethod); // push property value 
+                if (p.GetType().IsValueType)
+                    il.Emit(OpCodes.Box, typeof(object)); // box
+         
+                //TODO CHECK IF VALUE TYPE 
+                il.Emit(OpCodes.Call, FormatNotIgnoreToHtml);
                 //il.Emit(OpCodes.Callvirt, objType.GetMethod(pGetMethod.Name, new Type[] { typeof(object) }));
-                // if (p.PropertyType.IsValueType)
-                //       il.Emit(OpCodes.Box, p.PropertyType); // box
-                //il.Emit(OpCodes.Call, FormatNotIgnoreToHtml);
+                
+                il.Emit(OpCodes.Call, concat);
 
             }
+            il.Emit(OpCodes.Ret);              // ret
 
 
 
-                Type getterType = typeB.CreateType();
+            Type getterType = typeB.CreateType();
 
             asmB.Save(asmName.Name + ".dll");
 
