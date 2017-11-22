@@ -20,20 +20,20 @@ namespace HtmlReflect
     {
         public abstract string GetHtmlString(object target);
 
-        public static string FormatNotIgnoreToHtml(string name, string value)
+        public static string FormatNotIgnoreToHtml(string name, object value)
         {
             return String.Format("<li class='list-group-item'><strong>{0}</strong>:{1}</li>", name, value);
         }
 
-        public static string FormatHtmlAsToHtml(string htmlRef, string name, string value)
+        public static string FormatHtmlAsToHtml(string htmlRef, string name, object value)
         {
-            return htmlRef.Replace("{name}", name.Replace("{value}", value));
+            return htmlRef.Replace("{name}", name.Replace("{value}", value.ToString()));
         }
     }
 
     public class HtmlEmit
     {
-        static readonly MethodInfo FormatNotIgnoreToHtml = typeof(AbstractPropGetter).GetMethod("FormatNotIgnoreToHtml", new Type[] { typeof(String), typeof(String) });
+        static readonly MethodInfo FormatNotIgnoreToHtml = typeof(AbstractPropGetter).GetMethod("FormatNotIgnoreToHtml", new Type[] { typeof(String), typeof(object) });
         static readonly MethodInfo FormatHtmlAsToHtm = typeof(AbstractPropGetter).GetMethod("FormatHtmlAsToHtml", new Type[] { typeof(String), typeof(String), typeof(object) });
         static readonly MethodInfo concat = typeof(String).GetMethod("Concat", new Type[] { typeof(string), typeof(string) });
 
@@ -103,7 +103,6 @@ namespace HtmlReflect
             {
                 object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
                 if (attrs.Length != 0) continue;
-
                 il.Emit(OpCodes.Ldstr, p.Name);    // push on stack the property name
                                                    //  il.Emit(OpCodes.Ldloc, target);    // ldloc target
 
@@ -111,13 +110,11 @@ namespace HtmlReflect
                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
                    ).GetGetMethod(true);
 
-              
-
                 il.Emit(OpCodes.Ldloc_0);          // push target
                 il.Emit(OpCodes.Callvirt, pGetMethod); // push property value 
-                if (p.GetType().IsValueType)
-                    il.Emit(OpCodes.Box, typeof(object)); // box
-         
+                if (p.PropertyType.IsValueType)
+                    il.Emit(OpCodes.Box, p.PropertyType); // box
+
                 //TODO CHECK IF VALUE TYPE 
                 il.Emit(OpCodes.Call, FormatNotIgnoreToHtml);
                 //il.Emit(OpCodes.Callvirt, objType.GetMethod(pGetMethod.Name, new Type[] { typeof(object) }));
