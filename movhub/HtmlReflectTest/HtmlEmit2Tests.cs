@@ -4,16 +4,18 @@ using MovHubDb;
 using HtmlReflect;
 using MovHubDb.Model;
 
+
 namespace HtmlReflectTest
 {
     [TestClass]
-    public class HtmlReflect2Test
+    public class HtmlEmit2Tests
     {
+
         private TheMovieDbClient movieDb = new TheMovieDbClient();
-        private HtlmReflect2 html = new HtlmReflect2();
-        
+        private HtmlEmit2 html = new HtmlEmit2();
+
         [TestMethod]
-        public void ToHtml2Test()
+        public void ToHtmlEmitTest()
         {
 
             Movie movie = movieDb.MovieDetails(860);
@@ -38,5 +40,26 @@ namespace HtmlReflectTest
         }
 
 
+
+        [TestMethod]
+        public void MoviePropGetterTest()
+        {
+
+            Movie movie = movieDb.MovieDetails(860);
+            MoviePropGetter moviePropGetter = new MoviePropGetter();
+
+            String thisHtml = moviePropGetter.GetHtmlString(movie);
+
+        }
+
+        [TestMethod]
+        public void MovieSearchPropGetterTest()
+        {
+
+            MovieSearchItem[] personCredits = movieDb.PersonMovies(15008);
+            MoviesPropGetter movieProp = new MoviesPropGetter();
+            String thisHtml = movieProp.GetHtmlString(personCredits);
+
+        }
     }
 }

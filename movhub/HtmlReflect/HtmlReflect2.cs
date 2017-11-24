@@ -123,7 +123,11 @@ namespace HtmlReflect
                     string htmlRef = getter.GetHtmlString();
                     if (htmlRef != null)
                     {
-                        tableContent.Append(htmlRef.Replace("{name}", getter.GetPropertyName()).Replace("{value}", getter.GetValueAsString(currObject)));
+                        tableContent.Append(
+                            htmlRef.Replace("{name}", 
+                            getter.GetPropertyName()).Replace("{value}",
+                            getter.GetValueAsString(currObject))
+                        );
                         continue;
                     }
                     tableContent.Append("<td>" + getter.GetValueAsString(currObject) + "</td>");

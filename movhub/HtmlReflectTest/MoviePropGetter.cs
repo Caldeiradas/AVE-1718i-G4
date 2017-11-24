@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MovHubDb;
+using HtmlReflect;
 using MovHubDb.Model;
 
-namespace HtmlReflect
+namespace HtmlReflectTest
 {
-    class MoviePropGetter : AbstractPropGetter
+    class MoviePropGetter : AbstractPropObjGetter
     {
         public override string GetHtmlString(object obj)
         {

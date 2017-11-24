@@ -10,7 +10,8 @@ namespace MovHubWebApp
     {
         TheMovieDbClient movieDb = new TheMovieDbClient();
         //Htmlect html = new Htmlect();
-        HtlmReflect2 html = new HtlmReflect2();
+        //HtlmReflect2 html = new HtlmReflect2();
+        HtmlEmit2 html = new HtmlEmit2();
 
         public MovHubModule()
         {
