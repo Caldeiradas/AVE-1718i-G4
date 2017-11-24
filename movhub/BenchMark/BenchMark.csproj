@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5AB8C0A0-A449-4C34-AF67-4899236A8ADD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HtmlReflect</RootNamespace>
-    <AssemblyName>HtmlReflect</AssemblyName>
+    <ProjectGuid>{D4ABD1A4-ABD9-4508-A54B-950E55233B78}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>BenchMark</RootNamespace>
+    <AssemblyName>BenchMark</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -40,12 +42,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomAttributes.cs" />
-    <Compile Include="Htmlect.cs" />
-    <Compile Include="HtmlEmit.cs" />
-    <Compile Include="HtmlEmit2.cs" />
-    <Compile Include="HtmlReflect.cs" />
+    <Compile Include="Benchmark.cs" />
+    <Compile Include="NBench.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HtmlReflect\HtmlReflect.csproj">
+      <Project>{5ab8c0a0-a449-4c34-af67-4899236a8add}</Project>
+      <Name>HtmlReflect</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MovHubDb\MovHubDb.csproj">
+      <Project>{902751b9-ddb8-4e09-849c-023d130aa636}</Project>
+      <Name>MovHubDb</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

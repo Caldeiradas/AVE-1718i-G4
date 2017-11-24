@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlReflect", "HtmlReflect\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlReflectTest", "HtmlReflectTest\HtmlReflectTest.csproj", "{C3D07A3E-E4EA-41B2-98CB-09AF5E93C3DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMark", "BenchMark\BenchMark.csproj", "{D4ABD1A4-ABD9-4508-A54B-950E55233B78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C3D07A3E-E4EA-41B2-98CB-09AF5E93C3DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3D07A3E-E4EA-41B2-98CB-09AF5E93C3DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3D07A3E-E4EA-41B2-98CB-09AF5E93C3DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4ABD1A4-ABD9-4508-A54B-950E55233B78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4ABD1A4-ABD9-4508-A54B-950E55233B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4ABD1A4-ABD9-4508-A54B-950E55233B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4ABD1A4-ABD9-4508-A54B-950E55233B78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

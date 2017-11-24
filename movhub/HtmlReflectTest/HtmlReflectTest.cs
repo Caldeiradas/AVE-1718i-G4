@@ -7,13 +7,13 @@ using MovHubDb.Model;
 namespace HtmlReflectTest
 {
     [TestClass]
-    public class HtmlReflect2Test
+    public class HtmlReflectTest
     {
         private TheMovieDbClient movieDb = new TheMovieDbClient();
-        private HtlmReflect2 html = new HtlmReflect2();
+        private HtlmReflect html = new HtlmReflect();
         
         [TestMethod]
-        public void ToHtml2Test()
+        public void ToHtmlTest()
         {
 
             Movie movie = movieDb.MovieDetails(860);

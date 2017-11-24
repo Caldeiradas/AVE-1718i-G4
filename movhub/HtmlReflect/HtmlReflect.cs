@@ -36,36 +36,7 @@ namespace HtmlReflect
         }
     }
 
-    //class GetterArray : IGetter
-    //{
-    //    PropertyInfo p;
-    //    public GetterArray(PropertyInfo p)
-    //    {
-    //        this.p = p;
-    //    }
-    //    public string GetPropertyName()
-    //    {
-    //        return p.Name;
-    //    }
-    //    public string GetValueAsString(object target)
-    //    {
-    //        object[] arr = (object[])p.GetValue(target);
-    //        string str = p.Name + ": [";
-    //        //for (int i = 0; i < arr.Length; i++)
-    //        //{
-    //        //    str += Logger.ObjFieldsToString(arr[i]) + ", ";
-    //        //}
-    //        //return str + "]";
-    //        return null;
-    //    }
-
-    //    public string GetHtmlString()
-    //    {
-    //        return null;
-    //    }
-    //}
-
-    public class HtlmReflect2
+    public class HtlmReflect
     {
         static Dictionary<Type, List<IGetter>> markedProps = new Dictionary<Type, List<IGetter>>();
 

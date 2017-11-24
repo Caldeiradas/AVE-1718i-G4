@@ -50,11 +50,9 @@
   <ItemGroup>
     <Compile Include="AttributesTest.cs" />
     <Compile Include="HtmlectTest.cs" />
-    <Compile Include="MoviePropGetter.cs" />
-    <Compile Include="MoviesPropGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MovieHubDbTest.cs" />
-    <Compile Include="HtmlReflect2Test.cs" />
+    <Compile Include="HtmlReflectTest.cs" />
     <Compile Include="HtmlEmitTests.cs" />
     <Compile Include="HtmlEmit2Tests.cs" />
   </ItemGroup>

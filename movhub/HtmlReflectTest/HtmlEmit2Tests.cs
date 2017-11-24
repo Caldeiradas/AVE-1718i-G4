@@ -38,28 +38,6 @@ namespace HtmlReflectTest
             //Assert.IsTrue(thisHtml.Contains("<td>Mulholland Drive</td><td>2001-05-16</td><td>7.7</td>"));
 
         }
-
-
-
-        [TestMethod]
-        public void MoviePropGetterTest()
-        {
-
-            Movie movie = movieDb.MovieDetails(860);
-            MoviePropGetter moviePropGetter = new MoviePropGetter();
-
-            String thisHtml = moviePropGetter.GetHtmlString(movie);
-
-        }
-
-        [TestMethod]
-        public void MovieSearchPropGetterTest()
-        {
-
-            MovieSearchItem[] personCredits = movieDb.PersonMovies(15008);
-            MoviesPropGetter movieProp = new MoviesPropGetter();
-            String thisHtml = movieProp.GetHtmlString(personCredits);
-
-        }
+        
     }
 }
