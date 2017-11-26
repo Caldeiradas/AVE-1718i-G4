@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovHubDb", "MovHubDb\MovHub
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlReflect", "HtmlReflect\HtmlReflect.csproj", "{5AB8C0A0-A449-4C34-AF67-4899236A8ADD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlReflectTest", "HtmlReflectTest\HtmlReflectTest.csproj", "{C3D07A3E-E4EA-41B2-98CB-09AF5E93C3DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToHtmlTests", "HtmlReflectTest\ToHtmlTests.csproj", "{C3D07A3E-E4EA-41B2-98CB-09AF5E93C3DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMark", "BenchMark\BenchMark.csproj", "{D4ABD1A4-ABD9-4508-A54B-950E55233B78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlEmit", "HtmlEmit\HtmlEmit.csproj", "{3E22E4C3-8500-49C4-B492-D61AB18965E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D4ABD1A4-ABD9-4508-A54B-950E55233B78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4ABD1A4-ABD9-4508-A54B-950E55233B78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4ABD1A4-ABD9-4508-A54B-950E55233B78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E22E4C3-8500-49C4-B492-D61AB18965E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E22E4C3-8500-49C4-B492-D61AB18965E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E22E4C3-8500-49C4-B492-D61AB18965E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E22E4C3-8500-49C4-B492-D61AB18965E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

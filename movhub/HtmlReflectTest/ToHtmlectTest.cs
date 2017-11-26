@@ -4,10 +4,10 @@ using MovHubDb;
 using HtmlReflect;
 using MovHubDb.Model;
 
-namespace HtmlReflectTest
+namespace ToHtmlReflectTest
 {
     [TestClass]
-    public class HtmlectTest
+    public class ToHtmlectTest
     {
         private TheMovieDbClient movieDb = new TheMovieDbClient();
         private Htmlect html = new Htmlect();

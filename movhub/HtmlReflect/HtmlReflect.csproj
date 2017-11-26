@@ -40,12 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomAttributes.cs" />
     <Compile Include="Htmlect.cs" />
-    <Compile Include="HtmlEmit.cs" />
-    <Compile Include="HtmlEmit2.cs" />
     <Compile Include="HtmlReflect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HtmlEmit\HtmlEmit.csproj">
+      <Project>{3e22e4c3-8500-49c4-b492-d61ab18965e7}</Project>
+      <Name>HtmlEmit</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

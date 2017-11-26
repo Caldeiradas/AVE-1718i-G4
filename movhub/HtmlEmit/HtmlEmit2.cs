@@ -24,6 +24,7 @@ namespace HtmlReflect
         {
             HtmlEmit2 html = new HtmlEmit2();
             string arrayValues = "";
+            string[] arrayOfObjects = new string[obj.Length];
             for (int i = 0; i < obj.Length; i++)
             {
                 arrayValues += html.ConvertArrayToHtml(obj[i]) + "@";

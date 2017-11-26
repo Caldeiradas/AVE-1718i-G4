@@ -49,17 +49,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributesTest.cs" />
-    <Compile Include="HtmlectTest.cs" />
+    <Compile Include="ToHtmlectTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MovieHubDbTest.cs" />
-    <Compile Include="HtmlReflectTest.cs" />
-    <Compile Include="HtmlEmitTests.cs" />
-    <Compile Include="HtmlEmit2Tests.cs" />
+    <Compile Include="ToHtmlReflectTest.cs" />
+    <Compile Include="ToHtmlEmitTests.cs" />
+    <Compile Include="ToHtmlEmit2Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HtmlEmit\HtmlEmit.csproj">
+      <Project>{3e22e4c3-8500-49c4-b492-d61ab18965e7}</Project>
+      <Name>HtmlEmit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HtmlReflect\HtmlReflect.csproj">
       <Project>{5ab8c0a0-a449-4c34-af67-4899236a8add}</Project>
       <Name>HtmlReflect</Name>

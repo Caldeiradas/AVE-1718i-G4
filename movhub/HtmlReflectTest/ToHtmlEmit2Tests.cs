@@ -5,10 +5,10 @@ using HtmlReflect;
 using MovHubDb.Model;
 
 
-namespace HtmlReflectTest
+namespace ToHtmlReflectTest
 {
     [TestClass]
-    public class HtmlEmit2Tests
+    public class ToHtmlEmit2Tests
     {
 
         private TheMovieDbClient movieDb = new TheMovieDbClient();

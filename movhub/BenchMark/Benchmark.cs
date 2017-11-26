@@ -19,15 +19,18 @@ namespace BenchMark
 
         static void Main(string[] args)
         {
+            CreateMovieSearchArray(1);
+            NBench.Bench(ToHtmlReflectTest, "Reflect Test");
+            NBench.Bench(ToHtmlEmitTest, "Emit Test");
+
             CreateMovieSearchArray(2000);
-           
-            NBench.Bench(ToHtmlEmitArrayTest, "Emit Test");
-            NBench.Bench(ToHtmlReflectArrayTest, "Reflect Test");
+
+            NBench.Bench(ToHtmlReflectArrayTest, "Reflect Array Test");
+            NBench.Bench(ToHtmlEmitArrayTest, "Emit Array Test");
         }
 
         private static void CreateMovieSearchArray(int numberOfElem) {
             movieSearch = new MovieSearchItem[numberOfElem];
-
             for (int i = 0; i < numberOfElem; i++)
             {
                 MovieSearchItem m = new MovieSearchItem();
@@ -37,20 +40,24 @@ namespace BenchMark
                 m.VoteAverage = 7.7;
                 movieSearch[i] = m;
             }
+        }
 
+        public static void ToHtmlReflectTest()
+        {
+            String thisHtml = htmlReflect.ToHtml(movieSearch);
+        }
+        public static void ToHtmlEmitTest()
+        {
+            String thisHtml = htmlEmit.ToHtml(movieSearch);
+        }
+        public static void ToHtmlReflectArrayTest()
+        {
+            String thisHtml = htmlReflect.ToHtml(movieSearch);
         }
         public static void ToHtmlEmitArrayTest()
         {
-   
             String thisHtml = htmlEmit.ToHtml(movieSearch);
-
         }
-
-        public static void ToHtmlReflectArrayTest()
-        {
-            ;
-            String thisHtml = htmlReflect.ToHtml(movieSearch);
-  
-        }
+    
     }
 }
