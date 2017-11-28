@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 
-namespace HtmlReflect
+namespace HtmlEmit
 {
     public abstract class AbstractGetter : PropertyInfoGetter
     {
@@ -24,14 +24,13 @@ namespace HtmlReflect
         {
             HtmlEmit2 html = new HtmlEmit2();
             string arrayValues = "";
-            string[] arrayOfObjects = new string[obj.Length];
             for (int i = 0; i < obj.Length; i++)
             {
                 arrayValues += html.ConvertArrayToHtml(obj[i]) + "@";
-
             }
             return arrayValues;
         }
+
     }
     public class HtmlEmit2
     {
@@ -97,13 +96,18 @@ namespace HtmlReflect
       
             //table header 
             tableHeader.Append("<table class ='table table-hover'> <thead> <tr>");
+
+            return getter.GetHtmlString(arr);
+
             // split by object
             string[] propsArray = GetEachObjectToStringArray(getter.GetHtmlString(arr));
             // split by property 
             string[] thisProp = GetEachPropToStringArray(propsArray[0]);
 
+            int numberOfProps = thisProp.Length;
+
             // Build the html Table Header 
-            for (int i = 0; i < thisProp.Length; i++) {
+            for (int i = 0; i < numberOfProps; i++) {
                 // split property
                 string[] propNameValue = thisProp[i].Split('#');
                 if (propNameValue.Length == 1) continue;
@@ -115,17 +119,17 @@ namespace HtmlReflect
             //table content
             tableContent.Append("<tbody>");
 
-            //// Build each table row with the property values
+            // Build each table row with the property values
             for (int i = 0; i < propsArray.Length; i++)
             {
                 // split by property 
-                string[] prop = GetEachPropToStringArray (propsArray[i]);
+                string[] prop = GetEachPropToStringArray(propsArray[i]);
                 tableContent.Append("<tr>");
                 if (prop.Length == 1) continue;
                 for (int j = 0; j < prop.Length; j++)
                 {
                     // split property in name, value, htmlRef if it exists
-                    string[] nameValue = GetThisPropertyToStringArray (prop[j]);
+                    string[] nameValue = GetThisPropertyToStringArray(prop[j]);
                     if (nameValue.Length == 1) continue;
                     // Get the property value 
                     string name = nameValue[0];
@@ -141,7 +145,9 @@ namespace HtmlReflect
                 tableContent.Append("</tr>");
             }
             tableContent.Append("</tbody> </table>");
-            
+
+
+
             return tableHeader.ToString() + tableContent.ToString(); ;
         }
 
@@ -220,13 +226,22 @@ namespace HtmlReflect
 
             ILGenerator il = methodB.GetILGenerator();
 
+     
+
+            LocalBuilder target = il.DeclareLocal(objType);
             il.Emit(OpCodes.Ldarg_1);          // push target
-            il.Emit(OpCodes.Call, FormatArrayToHtml);  // get the header HTML
+            il.Emit(OpCodes.Castclass, objType); // castclass
+            il.Emit(OpCodes.Stloc, target);    // store on local variable 
+
+            il.Emit(OpCodes.Ldloc_0);          // push target
+            il.Emit(OpCodes.Call, FormatArrayToHtml);
 
             il.Emit(OpCodes.Ret);              // ret
+
+
             Type getterType = typeB.CreateType();
 
-          //  asmB.Save(asmName.Name + ".dll");
+            asmB.Save(asmName.Name + ".dll");
 
             return (PropertyInfoGetter)Activator.CreateInstance(getterType);
         }

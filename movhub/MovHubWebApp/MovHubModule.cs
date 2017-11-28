@@ -1,4 +1,4 @@
-﻿using HtmlReflect;
+﻿using HtmlEmit;
 using Nancy;
 using MovHubDb;
 using System;
@@ -10,8 +10,8 @@ namespace MovHubWebApp
     {
         TheMovieDbClient movieDb = new TheMovieDbClient();
         //Htmlect html = new Htmlect();
-        //HtlmReflect2 html = new HtlmReflect2();
-        HtmlEmit2 html = new HtmlEmit2();
+        HtlmReflect html = new HtlmReflect();
+        //HtmlEmit2 html = new HtmlEmit2();
 
         public MovHubModule()
         {

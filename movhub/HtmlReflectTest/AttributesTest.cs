@@ -31,14 +31,14 @@ namespace ToHtmlReflectTest
         {
             Movie movie = movieDb.MovieDetails(860);
             PropertyInfo idInfo = movie.GetType().GetProperty("Id");
-            Assert.IsNotNull(idInfo.GetCustomAttribute(typeof(HtmlReflect.HtmlIgnoreAttribute)));
+            Assert.IsNotNull(idInfo.GetCustomAttribute(typeof(HtmlEmit.HtmlIgnoreAttribute)));
         }
 
         [TestMethod]
         public void HtmlAsAttributeTest()
         {
             Movie movie = movieDb.MovieDetails(860);
-            HtmlReflect.HtmlAsAttribute attribute = (HtmlReflect.HtmlAsAttribute)movie.GetType().GetProperty("credits").GetCustomAttribute(typeof(HtmlReflect.HtmlAsAttribute));
+            HtmlEmit.HtmlAsAttribute attribute = (HtmlEmit.HtmlAsAttribute)movie.GetType().GetProperty("credits").GetCustomAttribute(typeof(HtmlEmit.HtmlAsAttribute));
             Assert.IsNotNull(attribute);
             Assert.IsTrue(attribute.htmlRef.Contains("<li class='list-group-item'><a href='/movies/{value}/credits'>cast and crew </a></li>"));
         }

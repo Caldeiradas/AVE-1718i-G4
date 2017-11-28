@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 
-namespace HtmlReflect
+namespace HtmlEmit
 {
 
 
@@ -33,26 +33,30 @@ namespace HtmlReflect
 
     public abstract class AbstractPropArrayGetter : PropertyInfoGetter
     {
-
+        HtmlEmit html = new HtmlEmit();
         public abstract string GetHtmlString(object target);
 
 
-        public static string FormatArrayToHtmlHeader(object[] obj)
+        public string FormatArrayToHtmlHeader(object[] obj)
         {
+            
             string header = "<table class ='table table-hover'> <thead> <tr>";
-            header += HtmlEmit.GetArrayHeader(obj[0]);
+            header += html.GetArrayHeader(obj[0]);
             header += "</tr> </thead>";
             return header;
         }
 
-        public static string FormatHeader(string name) => String.Format("<th>" + name + " </th>");
-        public static string FormatBody(string name) => String.Format("<tr>" + name + "</tr>");
-        public static string FormatArrayToHtmlBody(object []obj)
+        public string FormatHeader(string name) => String.Format("<th>" + name + " </th>");
+        public string FormatBody(object value) => String.Format("<tr>" + value.ToString()  + "</tr>");
+        public string FormatBodyHtmlAs(string name, object value, string htmlRef) {
+            return htmlRef.Replace("{name}", name.Replace("{value}", value.ToString()));
+        }
+        public string FormatArrayToHtmlBody(object []obj)
         {
             string body = "<tbody>";
             for (int i = 0; i < obj.Length; i++) {
 
-                body += HtmlEmit.GetArrayBody(obj[i]);
+                body += html.GetArrayBody(obj[i]);
                     
             } 
             body+= "</tbody>";
@@ -69,7 +73,8 @@ namespace HtmlReflect
         static readonly MethodInfo FormatArrayToHtmlHeader = typeof(AbstractPropArrayGetter).GetMethod("FormatArrayToHtmlHeader", new Type[] { typeof(object[]) });
         static readonly MethodInfo FormatArrayToHtmlBody = typeof(AbstractPropArrayGetter).GetMethod("FormatArrayToHtmlBody", new Type[] { typeof(object[]) });
         static readonly MethodInfo FormatHeader = typeof(AbstractPropArrayGetter).GetMethod("FormatHeader", new Type[] { typeof(string) });
-        static readonly MethodInfo FormatBody = typeof(AbstractPropArrayGetter).GetMethod("FormatBody", new Type[] { typeof(string) });
+        static readonly MethodInfo FormatBody = typeof(AbstractPropArrayGetter).GetMethod("FormatBody", new Type[] { typeof(object) });
+        static readonly MethodInfo FormatBodyHtmlAs = typeof(AbstractPropArrayGetter).GetMethod("FormatBodyHtmlAs", new Type[] { typeof(string), typeof(object), typeof(string)});
         static readonly MethodInfo concat = typeof(String).GetMethod("Concat", new Type[] { typeof(string), typeof(string) });
 
 
@@ -184,15 +189,24 @@ namespace HtmlReflect
 
             ILGenerator il = methodB.GetILGenerator();
 
-            //Get the HTML Header 
-            il.Emit(OpCodes.Ldarg_1);          // push target
-            il.Emit(OpCodes.Call, FormatArrayToHtmlHeader);  // get the header HTML
 
-            //GET the HTML 
+            LocalBuilder target = il.DeclareLocal(objType);
             il.Emit(OpCodes.Ldarg_1);          // push target
+            il.Emit(OpCodes.Castclass, objType); // castclass
+            il.Emit(OpCodes.Stloc, target);    // store on local variable 
+
+            il.Emit(OpCodes.Ldstr, "");
+            //Get the HTML Header 
+            il.Emit(OpCodes.Ldloc_0);          // push target
+            il.Emit(OpCodes.Call, FormatArrayToHtmlHeader);  // get the header HTML
+            il.Emit(OpCodes.Call, concat);
+
+            //GET the HTML BODY
+            il.Emit(OpCodes.Ldloc_0);          // push target
             il.Emit(OpCodes.Call, FormatArrayToHtmlBody);  // get the header HTML
-            
-            
+            il.Emit(OpCodes.Call, concat);
+
+
 
             //LocalBuilder target = il.DeclareLocal(objType);
             //il.Emit(OpCodes.Ldarg_1);          // push target
@@ -229,7 +243,68 @@ namespace HtmlReflect
 
             return (PropertyInfoGetter)Activator.CreateInstance(getterType);
         }
-        private static PropertyInfoGetter EmitArrayBody(Type objType)
+        //private static PropertyInfoGetter EmitArrayBody(Type objType)
+        //{
+        //    string name = objType.Name + "PropertyValueInArrayBody";
+        //    AssemblyName asmName = new AssemblyName(name);
+
+        //    AssemblyBuilder asmB = CreateAsm(asmName);
+
+        //    ModuleBuilder moduleB = CreateModule(name, asmB);
+
+        //    TypeBuilder typeB = CreateType(name, moduleB, typeof(AbstractPropArrayGetter));
+
+        //    // Build the method GetHtmlString()
+        //    MethodBuilder methodB = CreateGetHtmlStringMethod(typeB);
+
+        //    ILGenerator il = methodB.GetILGenerator();
+
+        //    PropertyInfo[] props = objType.GetProperties();
+
+        //    LocalBuilder target = il.DeclareLocal(objType);
+        //    il.Emit(OpCodes.Ldarg_1);          // push target
+        //    il.Emit(OpCodes.Castclass, objType); // castclass
+        //    il.Emit(OpCodes.Stloc, target);    // store on local variable 
+
+        //    il.Emit(OpCodes.Ldstr, "");
+        //    foreach (PropertyInfo p in props)
+        //    {
+        //        object[] attrs = p.GetCustomAttributes(typeof(HtmlIgnoreAttribute), true);
+        //        if (attrs.Length != 0) continue;
+        //        il.Emit(OpCodes.Ldstr, p.Name);    // push on stack the property name
+
+        //        // Get this property get Method
+        //        MethodInfo pGetMethod = objType.GetProperty(p.Name,
+        //           BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
+        //           ).GetGetMethod(true);
+
+        //        il.Emit(OpCodes.Ldloc_0);                  // push target
+        //        // Using this property _GetMethod() gets the property value
+        //        il.Emit(OpCodes.Callvirt, pGetMethod);     // push property value 
+        //        if (p.PropertyType.IsValueType)
+        //            il.Emit(OpCodes.Box, p.PropertyType);  // box
+
+        //        // If this property has HtmlAs custom attribute executes FormatHtmlAsToHtml
+        //        HtmlAsAttribute[] htmlAsAttrib = (HtmlAsAttribute[])p.GetCustomAttributes(typeof(HtmlAsAttribute), true);
+        //        if (htmlAsAttrib.Length == 0)
+        //            il.Emit(OpCodes.Call, FormatBody);
+        //        else
+        //        {
+        //            string htmlAs = htmlAsAttrib[0].htmlRef;
+        //            il.Emit(OpCodes.Ldstr, htmlAs);
+        //            il.Emit(OpCodes.Call, FormatBody);
+        //        }
+        //        il.Emit(OpCodes.Call, concat);
+        //    }
+        //    il.Emit(OpCodes.Ret);              // ret
+        //    Type getterType = typeB.CreateType();
+
+        //    asmB.Save(asmName.Name + ".dll");
+
+        //    return (PropertyInfoGetter)Activator.CreateInstance(getterType);
+        //}
+
+        private PropertyInfoGetter EmitArrayBody(Type objType)
         {
             string name = objType.Name + "PropertyValueInArrayBody";
             AssemblyName asmName = new AssemblyName(name);
@@ -268,7 +343,17 @@ namespace HtmlReflect
                 il.Emit(OpCodes.Callvirt, pGetMethod);     // push property value 
                 if (p.PropertyType.IsValueType)
                     il.Emit(OpCodes.Box, p.PropertyType);  // box
-                il.Emit(OpCodes.Callvirt, FormatBody);
+
+                // If this property has HtmlAs custom attribute executes FormatHtmlAsToHtml
+                HtmlAsAttribute[] htmlAsAttrib = (HtmlAsAttribute[])p.GetCustomAttributes(typeof(HtmlAsAttribute), true);
+                if (htmlAsAttrib.Length == 0)
+                    il.Emit(OpCodes.Call, FormatBody);
+                else
+                {
+                    string htmlAs = htmlAsAttrib[0].htmlRef;
+                    il.Emit(OpCodes.Ldstr, htmlAs);
+                    il.Emit(OpCodes.Call, FormatBodyHtmlAs);
+                }
                 il.Emit(OpCodes.Call, concat);
             }
             il.Emit(OpCodes.Ret);              // ret
@@ -279,7 +364,7 @@ namespace HtmlReflect
             return (PropertyInfoGetter)Activator.CreateInstance(getterType);
         }
 
-        private static PropertyInfoGetter EmitArrayHeader(Type objType)
+        private PropertyInfoGetter EmitArrayHeader(Type objType)
         {
             string name = objType.Name + "PropertyNameInArrayHeader";
             AssemblyName asmName = new AssemblyName(name);
@@ -321,7 +406,7 @@ namespace HtmlReflect
         //maps a type to its emited methods
         static Dictionary<Type, PropertyInfoGetter> bodyValuesInArray = new Dictionary<Type, PropertyInfoGetter>();
 
-        internal static string GetArrayBody(object obj)
+        public string GetArrayBody(object obj)
         {
             Type objType = obj.GetType();
             PropertyInfoGetter getter;
@@ -336,7 +421,7 @@ namespace HtmlReflect
         //maps a type to its emited methods
         static Dictionary<Type, PropertyInfoGetter> headerValueInArray = new Dictionary<Type, PropertyInfoGetter>();
 
-        internal static string GetArrayHeader(object property)
+        internal  string GetArrayHeader(object property)
         {
             Type objType = property.GetType();
             PropertyInfoGetter getter;

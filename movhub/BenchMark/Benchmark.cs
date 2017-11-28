@@ -1,4 +1,4 @@
-﻿using HtmlReflect;
+﻿using HtmlEmit;
 using MovHubDb;
 using MovHubDb.Model;
 using System;
@@ -20,6 +20,7 @@ namespace BenchMark
         static void Main(string[] args)
         {
             CreateMovieSearchArray(1);
+
             NBench.Bench(ToHtmlReflectTest, "Reflect Test");
             NBench.Bench(ToHtmlEmitTest, "Emit Test");
 
