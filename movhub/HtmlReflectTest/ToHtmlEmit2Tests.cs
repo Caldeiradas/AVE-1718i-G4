@@ -1,18 +1,18 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovHubDb;
-using HtmlEmit;
+using HtmlEmiters;
 using MovHubDb.Model;
 
 
-namespace ToHtmlReflectTest
+namespace ToHtmlEmit2Tests
 {
     [TestClass]
     public class ToHtmlEmit2Tests
     {
 
         private TheMovieDbClient movieDb = new TheMovieDbClient();
-        private HtmlEmit2 html = new HtmlEmit2();
+        private HtmlEmit2  html = new HtmlEmit2();
 
         [TestMethod]
         public void ToHtmlEmitTest()

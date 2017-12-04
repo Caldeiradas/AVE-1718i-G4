@@ -7,8 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlEmiters;
 
-namespace ToHtmlReflectTest
+namespace ToHtmlEmit2Tests
 {
     [TestClass]
     public class AttributesTest
@@ -31,14 +32,14 @@ namespace ToHtmlReflectTest
         {
             Movie movie = movieDb.MovieDetails(860);
             PropertyInfo idInfo = movie.GetType().GetProperty("Id");
-            Assert.IsNotNull(idInfo.GetCustomAttribute(typeof(HtmlEmit.HtmlIgnoreAttribute)));
+            Assert.IsNotNull(idInfo.GetCustomAttribute(typeof(HtmlEmiters.HtmlIgnoreAttribute)));
         }
 
         [TestMethod]
         public void HtmlAsAttributeTest()
         {
             Movie movie = movieDb.MovieDetails(860);
-            HtmlEmit.HtmlAsAttribute attribute = (HtmlEmit.HtmlAsAttribute)movie.GetType().GetProperty("credits").GetCustomAttribute(typeof(HtmlEmit.HtmlAsAttribute));
+            HtmlEmiters.HtmlAsAttribute attribute = (HtmlEmiters.HtmlAsAttribute)movie.GetType().GetProperty("credits").GetCustomAttribute(typeof(HtmlEmiters.HtmlAsAttribute));
             Assert.IsNotNull(attribute);
             Assert.IsTrue(attribute.htmlRef.Contains("<li class='list-group-item'><a href='/movies/{value}/credits'>cast and crew </a></li>"));
         }

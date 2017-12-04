@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using HtmlEmiters;
 
-namespace HtmlEmit
+namespace HtmlReflect
 {
     interface IGetter
     {

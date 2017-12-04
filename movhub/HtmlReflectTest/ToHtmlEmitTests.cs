@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovHubDb;
-using HtmlEmit;
+using HtmlEmiters;
 using MovHubDb.Model;
 
-namespace ToHtmlReflectTest
+namespace ToHtmlEmit2Tests
 {
     [TestClass]
     public class ToHtmlEmitTests
@@ -32,7 +32,7 @@ namespace ToHtmlReflectTest
 
             
             Movie movie = movieDb.MovieDetails(860);
-            String thisHtml = html.GetArrayBody(movie);
+            String thisHtml = HtmlEmit.GetArrayBody(movie);
 
             Assert.IsTrue(
                 thisHtml.Contains("<ul class='list-group'><li class='list-group-item'>" +

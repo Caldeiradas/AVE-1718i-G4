@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToHtmlTests", "HtmlReflectT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMark", "BenchMark\BenchMark.csproj", "{D4ABD1A4-ABD9-4508-A54B-950E55233B78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlEmit", "HtmlEmit\HtmlEmit.csproj", "{3E22E4C3-8500-49C4-B492-D61AB18965E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HtmlEmiters", "HtmlEmit\HtmlEmiters.csproj", "{3E22E4C3-8500-49C4-B492-D61AB18965E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

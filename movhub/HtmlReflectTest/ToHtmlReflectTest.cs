@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovHubDb;
-using HtmlEmit;
+using HtmlReflect;
 using MovHubDb.Model;
 
-namespace ToHtmlReflectTest
+namespace ToHtmlEmit2Tests
 {
     [TestClass]
     public class ToHtmlReflectTest

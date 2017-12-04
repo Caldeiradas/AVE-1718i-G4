@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MovHubDb;
 using MovHubDb.Model;
 
-namespace ToHtmlReflectTest
+namespace ToHtmlEmit2Tests
 {
     [TestClass]
     public class MovieHubDbTest

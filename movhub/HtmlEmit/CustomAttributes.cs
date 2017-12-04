@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HtmlEmit
+namespace HtmlEmiters
 {
 
     public class CustomAttribute : Attribute { }

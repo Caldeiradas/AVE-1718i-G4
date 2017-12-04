@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 
-namespace HtmlEmit
+namespace HtmlEmiters
 {
     public abstract class AbstractGetter : PropertyInfoGetter
     {
@@ -96,8 +96,6 @@ namespace HtmlEmit
       
             //table header 
             tableHeader.Append("<table class ='table table-hover'> <thead> <tr>");
-
-            return getter.GetHtmlString(arr);
 
             // split by object
             string[] propsArray = GetEachObjectToStringArray(getter.GetHtmlString(arr));
